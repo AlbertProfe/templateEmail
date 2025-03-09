@@ -1,7 +1,6 @@
-import React, { useState, ChangeEvent } from "react";
-import qrPlaceholder from "./assets/attachment_preview.png"; // Assuming the image is in src/assets/
+import React, { useState, ChangeEvent } from 'react';
+import qrPlaceholder from './assets/attachment_preview.png'; // Assuming the image is in src/assets/
 
-// Define the type for the template data
 interface TemplateData {
   logoUrl: string;
   header: string;
@@ -17,7 +16,6 @@ interface TemplateData {
   footerText2: string;
 }
 
-// Define the type for visibility toggles
 interface VisibilityState {
   logoUrl: boolean;
   header: boolean;
@@ -35,20 +33,19 @@ interface VisibilityState {
 
 const EmailTemplateCreator: React.FC = () => {
   const [templateData, setTemplateData] = useState<TemplateData>({
-    logoUrl:
-      "https://www.tailorbrands.com/wp-content/uploads/2021/05/nike-300x300.png",
+    logoUrl: 'https://www.tailorbrands.com/wp-content/uploads/2021/05/nike-300x300.png',
     header: "You're Invited!",
-    contactName: "John Doe",
-    contactEmail: "john.doe@example.com",
-    contactPhone: "+1 555-123-4567",
-    qrInstruction: "Scan this QR code upon arrival.",
-    eventName: "Primavera Sound 2025",
-    eventDate: "May 30, 2025 00:00",
-    eventLocation: "Parc del Fòrum, Barcelona",
+    contactName: 'John Doe',
+    contactEmail: 'john.doe@example.com',
+    contactPhone: '+1 555-123-4567',
+    qrInstruction: 'Scan this QR code upon arrival.',
+    eventName: 'Primavera Sound 2025',
+    eventDate: 'May 30, 2025 00:00',
+    eventLocation: 'Parc del Fòrum, Barcelona',
     eventDescription:
       "One of Europe's biggest music festivals, featuring a diverse lineup of international artists.",
-    footerText1: "This invitation is non-transferable.",
-    footerText2: "© 2025 Invite2Me. All rights reserved.",
+    footerText1: 'This invitation is non-transferable.',
+    footerText2: '© 2025 Invite2Me. All rights reserved.',
   });
 
   const [visibility, setVisibility] = useState<VisibilityState>({
@@ -96,10 +93,11 @@ const EmailTemplateCreator: React.FC = () => {
               placeholder="Enter logo URL"
             />
             <button
-              onClick={() => toggleVisibility("logoUrl")}
-              style={visibility.logoUrl ? styles.hideButton : styles.showButton}
+              onClick={() => toggleVisibility('logoUrl')}
+              style={styles.toggleButton}
+              title={visibility.logoUrl ? 'Hide' : 'Show'}
             >
-              {visibility.logoUrl ? "Hide" : "Show"}
+              {visibility.logoUrl ? '👁️' : '👁️‍🗨️'}
             </button>
           </div>
         </div>
@@ -116,10 +114,11 @@ const EmailTemplateCreator: React.FC = () => {
               placeholder="Enter header"
             />
             <button
-              onClick={() => toggleVisibility("header")}
-              style={visibility.header ? styles.hideButton : styles.showButton}
+              onClick={() => toggleVisibility('header')}
+              style={styles.toggleButton}
+              title={visibility.header ? 'Hide' : 'Show'}
             >
-              {visibility.header ? "Hide" : "Show"}
+              {visibility.header ? '👁️' : '👁️‍🗨️'}
             </button>
           </div>
         </div>
@@ -136,12 +135,11 @@ const EmailTemplateCreator: React.FC = () => {
               placeholder="Enter contact name"
             />
             <button
-              onClick={() => toggleVisibility("contactName")}
-              style={
-                visibility.contactName ? styles.hideButton : styles.showButton
-              }
+              onClick={() => toggleVisibility('contactName')}
+              style={styles.toggleButton}
+              title={visibility.contactName ? 'Hide' : 'Show'}
             >
-              {visibility.contactName ? "Hide" : "Show"}
+              {visibility.contactName ? '👁️' : '👁️‍🗨️'}
             </button>
           </div>
         </div>
@@ -158,12 +156,11 @@ const EmailTemplateCreator: React.FC = () => {
               placeholder="Enter contact email"
             />
             <button
-              onClick={() => toggleVisibility("contactEmail")}
-              style={
-                visibility.contactEmail ? styles.hideButton : styles.showButton
-              }
+              onClick={() => toggleVisibility('contactEmail')}
+              style={styles.toggleButton}
+              title={visibility.contactEmail ? 'Hide' : 'Show'}
             >
-              {visibility.contactEmail ? "Hide" : "Show"}
+              {visibility.contactEmail ? '👁️' : '👁️‍🗨️'}
             </button>
           </div>
         </div>
@@ -180,12 +177,11 @@ const EmailTemplateCreator: React.FC = () => {
               placeholder="Enter contact phone"
             />
             <button
-              onClick={() => toggleVisibility("contactPhone")}
-              style={
-                visibility.contactPhone ? styles.hideButton : styles.showButton
-              }
+              onClick={() => toggleVisibility('contactPhone')}
+              style={styles.toggleButton}
+              title={visibility.contactPhone ? 'Hide' : 'Show'}
             >
-              {visibility.contactPhone ? "Hide" : "Show"}
+              {visibility.contactPhone ? '👁️' : '👁️‍🗨️'}
             </button>
           </div>
         </div>
@@ -202,12 +198,11 @@ const EmailTemplateCreator: React.FC = () => {
               placeholder="Enter QR instruction"
             />
             <button
-              onClick={() => toggleVisibility("qrInstruction")}
-              style={
-                visibility.qrInstruction ? styles.hideButton : styles.showButton
-              }
+              onClick={() => toggleVisibility('qrInstruction')}
+              style={styles.toggleButton}
+              title={visibility.qrInstruction ? 'Hide' : 'Show'}
             >
-              {visibility.qrInstruction ? "Hide" : "Show"}
+              {visibility.qrInstruction ? '👁️' : '👁️‍🗨️'}
             </button>
           </div>
         </div>
@@ -224,12 +219,11 @@ const EmailTemplateCreator: React.FC = () => {
               placeholder="Enter event name"
             />
             <button
-              onClick={() => toggleVisibility("eventName")}
-              style={
-                visibility.eventName ? styles.hideButton : styles.showButton
-              }
+              onClick={() => toggleVisibility('eventName')}
+              style={styles.toggleButton}
+              title={visibility.eventName ? 'Hide' : 'Show'}
             >
-              {visibility.eventName ? "Hide" : "Show"}
+              {visibility.eventName ? '👁️' : '👁️‍🗨️'}
             </button>
           </div>
         </div>
@@ -246,12 +240,11 @@ const EmailTemplateCreator: React.FC = () => {
               placeholder="Enter event date"
             />
             <button
-              onClick={() => toggleVisibility("eventDate")}
-              style={
-                visibility.eventDate ? styles.hideButton : styles.showButton
-              }
+              onClick={() => toggleVisibility('eventDate')}
+              style={styles.toggleButton}
+              title={visibility.eventDate ? 'Hide' : 'Show'}
             >
-              {visibility.eventDate ? "Hide" : "Show"}
+              {visibility.eventDate ? '👁️' : '👁️‍🗨️'}
             </button>
           </div>
         </div>
@@ -268,12 +261,11 @@ const EmailTemplateCreator: React.FC = () => {
               placeholder="Enter event location"
             />
             <button
-              onClick={() => toggleVisibility("eventLocation")}
-              style={
-                visibility.eventLocation ? styles.hideButton : styles.showButton
-              }
+              onClick={() => toggleVisibility('eventLocation')}
+              style={styles.toggleButton}
+              title={visibility.eventLocation ? 'Hide' : 'Show'}
             >
-              {visibility.eventLocation ? "Hide" : "Show"}
+              {visibility.eventLocation ? '👁️' : '👁️‍🗨️'}
             </button>
           </div>
         </div>
@@ -289,14 +281,11 @@ const EmailTemplateCreator: React.FC = () => {
               placeholder="Enter event description"
             />
             <button
-              onClick={() => toggleVisibility("eventDescription")}
-              style={
-                visibility.eventDescription
-                  ? styles.hideButton
-                  : styles.showButton
-              }
+              onClick={() => toggleVisibility('eventDescription')}
+              style={styles.toggleButton}
+              title={visibility.eventDescription ? 'Hide' : 'Show'}
             >
-              {visibility.eventDescription ? "Hide" : "Show"}
+              {visibility.eventDescription ? '👁️' : '👁️‍🗨️'}
             </button>
           </div>
         </div>
@@ -313,12 +302,11 @@ const EmailTemplateCreator: React.FC = () => {
               placeholder="Enter footer text 1"
             />
             <button
-              onClick={() => toggleVisibility("footerText1")}
-              style={
-                visibility.footerText1 ? styles.hideButton : styles.showButton
-              }
+              onClick={() => toggleVisibility('footerText1')}
+              style={styles.toggleButton}
+              title={visibility.footerText1 ? 'Hide' : 'Show'}
             >
-              {visibility.footerText1 ? "Hide" : "Show"}
+              {visibility.footerText1 ? '👁️' : '👁️‍🗨️'}
             </button>
           </div>
         </div>
@@ -335,12 +323,11 @@ const EmailTemplateCreator: React.FC = () => {
               placeholder="Enter footer text 2"
             />
             <button
-              onClick={() => toggleVisibility("footerText2")}
-              style={
-                visibility.footerText2 ? styles.hideButton : styles.showButton
-              }
+              onClick={() => toggleVisibility('footerText2')}
+              style={styles.toggleButton}
+              title={visibility.footerText2 ? 'Hide' : 'Show'}
             >
-              {visibility.footerText2 ? "Hide" : "Show"}
+              {visibility.footerText2 ? '👁️' : '👁️‍🗨️'}
             </button>
           </div>
         </div>
@@ -352,20 +339,12 @@ const EmailTemplateCreator: React.FC = () => {
         <div style={styles.emailPreview}>
           <div style={styles.header}>
             {visibility.logoUrl && (
-              <img
-                src={templateData.logoUrl}
-                alt="Company Logo"
-                style={styles.headerImg}
-              />
+              <img src={templateData.logoUrl} alt="Company Logo" style={styles.headerImg} />
             )}
-            {visibility.header && (
-              <h1 style={styles.headerText}>{templateData.header}</h1>
-            )}
+            {visibility.header && <h1 style={styles.headerText}>{templateData.header}</h1>}
           </div>
 
-          {(visibility.contactName ||
-            visibility.contactEmail ||
-            visibility.contactPhone) && (
+          {(visibility.contactName || visibility.contactEmail || visibility.contactPhone) && (
             <div style={styles.contactDetails}>
               <h2 style={styles.sectionTitle}>Contact Information</h2>
               {visibility.contactName && (
@@ -375,34 +354,25 @@ const EmailTemplateCreator: React.FC = () => {
               )}
               {visibility.contactEmail && (
                 <p>
-                  <strong>Email:</strong>{" "}
-                  <span>{templateData.contactEmail}</span>
+                  <strong>Email:</strong> <span>{templateData.contactEmail}</span>
                 </p>
               )}
               {visibility.contactPhone && (
                 <p>
-                  <strong>Phone:</strong>{" "}
-                  <span>{templateData.contactPhone}</span>
+                  <strong>Phone:</strong> <span>{templateData.contactPhone}</span>
                 </p>
               )}
             </div>
           )}
 
-          {visibility.qrInstruction && (
+          {(visibility.qrInstruction) && (
             <div style={styles.qrCode}>
-              <img
-                src={qrPlaceholder}
-                alt="QR Code Invitation"
-                style={styles.qrImg}
-              />
+              <img src={qrPlaceholder} alt="QR Code Invitation" style={styles.qrImg} />
               {visibility.qrInstruction && <p>{templateData.qrInstruction}</p>}
             </div>
           )}
 
-          {(visibility.eventName ||
-            visibility.eventDate ||
-            visibility.eventLocation ||
-            visibility.eventDescription) && (
+          {(visibility.eventName || visibility.eventDate || visibility.eventLocation || visibility.eventDescription) && (
             <div style={styles.eventDetails}>
               <h2 style={styles.sectionTitle}>Event Details</h2>
               {visibility.eventName && (
@@ -417,14 +387,12 @@ const EmailTemplateCreator: React.FC = () => {
               )}
               {visibility.eventLocation && (
                 <p>
-                  <strong>Location:</strong>{" "}
-                  <span>{templateData.eventLocation}</span>
+                  <strong>Location:</strong> <span>{templateData.eventLocation}</span>
                 </p>
               )}
               {visibility.eventDescription && (
                 <p>
-                  <strong>Description:</strong>{" "}
-                  <span>{templateData.eventDescription}</span>
+                  <strong>Description:</strong> <span>{templateData.eventDescription}</span>
                 </p>
               )}
             </div>
@@ -466,7 +434,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   previewPanel: {
     flex: 1,
     minWidth: "300px",
-    backgroundColor: "#fff",
+    backgroundColor: "rgba(233, 217, 217, 0.03)",
     padding: "20px",
     borderRadius: "5px",
     boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
@@ -496,7 +464,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     marginBottom: "6px",
   },
   input: {
-    width: "70%", // Adjusted to make room for the button
+    width: "85%", // Adjusted to make room for the smaller icon button
     padding: "10px",
     fontSize: "16px",
     borderRadius: "5px",
@@ -505,7 +473,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     transition: "border-color 0.2s",
   },
   textarea: {
-    width: "70%", // Adjusted to make room for the button
+    width: "85%", // Adjusted to make room for the smaller icon button
     padding: "10px",
     fontSize: "16px",
     borderRadius: "5px",
@@ -517,27 +485,16 @@ const styles: { [key: string]: React.CSSProperties } = {
   inputWithButton: {
     display: "flex",
     alignItems: "center",
-    gap: "10px",
+    gap: "8px",
   },
-  hideButton: {
-    padding: "8px 12px",
-    fontSize: "14px",
-    backgroundColor: "#e74c3c",
-    color: "#fff",
+  toggleButton: {
+    padding: "6px",
+    fontSize: "16px",
+    backgroundColor: "transparent",
+    color: "#555",
     border: "none",
-    borderRadius: "5px",
     cursor: "pointer",
-    transition: "background-color 0.2s",
-  },
-  showButton: {
-    padding: "8px 12px",
-    fontSize: "14px",
-    backgroundColor: "#2ecc71",
-    color: "#fff",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    transition: "background-color 0.2s",
+    transition: "color 0.2s",
   },
   emailPreview: {
     width: "100%",
