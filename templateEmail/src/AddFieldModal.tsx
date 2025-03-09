@@ -19,96 +19,79 @@ const AddFieldModal: React.FC<AddFieldModalProps> = ({
     e.preventDefault();
     if (name && placeholder) {
       onAdd(name, placeholder, position);
+      setName(""); // Reset form
+      setPlaceholder("");
+      setPosition(existingFields[0]);
     }
   };
 
   return (
-    <div style={modalStyles.overlay}>
-      <div style={modalStyles.modal}>
-        <h3 style={modalStyles.title}>Add New Field</h3>
-        <form onSubmit={handleSubmit}>
-          <div style={modalStyles.inputGroup}>
-            <label style={modalStyles.label}>Field Name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setName(e.target.value)
-              }
-              style={modalStyles.input}
-              placeholder="e.g., Special Note"
-            />
-          </div>
-          <div style={modalStyles.inputGroup}>
-            <label style={modalStyles.label}>Placeholder</label>
-            <input
-              type="text"
-              value={placeholder}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setPlaceholder(e.target.value)
-              }
-              style={modalStyles.input}
-              placeholder="e.g., Enter special note"
-            />
-          </div>
-          <div style={modalStyles.inputGroup}>
-            <label style={modalStyles.label}>Position (Insert Before)</label>
-            <select
-              value={position}
-              onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-                setPosition(e.target.value)
-              }
-              style={modalStyles.input}
-            >
-              {existingFields.map((field) => (
-                <option key={field} value={field}>
-                  {field.replace(/([A-Z])/g, " $1").trim()}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div style={modalStyles.buttonGroup}>
-            <button type="submit" style={modalStyles.addButton}>
-              Add
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              style={modalStyles.cancelButton}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
+    <div style={modalStyles.container}>
+      <form onSubmit={handleSubmit}>
+        <div style={modalStyles.inputGroup}>
+          <label style={modalStyles.label}>Field Name</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setName(e.target.value)
+            }
+            style={modalStyles.input}
+            placeholder="e.g., Special Note"
+          />
+        </div>
+        <div style={modalStyles.inputGroup}>
+          <label style={modalStyles.label}>Placeholder</label>
+          <input
+            type="text"
+            value={placeholder}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setPlaceholder(e.target.value)
+            }
+            style={modalStyles.input}
+            placeholder="e.g., Enter special note"
+          />
+        </div>
+        <div style={modalStyles.inputGroup}>
+          <label style={modalStyles.label}>Position (Insert Before)</label>
+          <select
+            value={position}
+            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+              setPosition(e.target.value)
+            }
+            style={modalStyles.input}
+          >
+            {existingFields.map((field) => (
+              <option key={field} value={field}>
+                {field.replace(/([A-Z])/g, " $1").trim()}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div style={modalStyles.buttonGroup}>
+          <button type="submit" style={modalStyles.addButton}>
+            Add
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            style={modalStyles.cancelButton}
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
 
 const modalStyles: { [key: string]: React.CSSProperties } = {
-  overlay: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 1000,
-  },
-  modal: {
-    backgroundColor: "#fff",
-    padding: "20px",
+  container: {
+    backgroundColor: "#f9f9f9",
+    padding: "15px",
     borderRadius: "5px",
-    boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
-    width: "300px",
-  },
-  title: {
-    fontSize: "18px",
-    marginBottom: "15px",
-    color: "#333",
+    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+    marginBottom: "20px",
   },
   inputGroup: {
     marginBottom: "15px",

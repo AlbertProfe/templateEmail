@@ -75,11 +75,11 @@ const EmailTemplateCreator: React.FC = () => {
   });
 
   const [customFields, setCustomFields] = useState<CustomField[]>([]);
-  const [showAddFieldModal, setShowAddFieldModal] = useState(false);
+  const [showAddFieldForm, setShowAddFieldForm] = useState(false); // Renamed for clarity
 
   // Hook to log or persist customFields whenever it changes
   useEffect(() => {
-    console.log("Custom Fields Updated:", customFields); // For debugging; replace with persistence logic if needed
+    console.log("Custom Fields Updated:", customFields);
     // Example: Save to localStorage (uncomment to use)
     // localStorage.setItem('customFields', JSON.stringify(customFields));
   }, [customFields]);
@@ -102,9 +102,9 @@ const EmailTemplateCreator: React.FC = () => {
   ) => {
     const newField = { name, placeholder, position };
     setCustomFields((prev) => [...prev, newField]);
-    setTemplateData((prev) => ({ ...prev, [name]: "" })); // Add to template data with empty value
-    setVisibility((prev) => ({ ...prev, [name]: true })); // Default to visible
-    setShowAddFieldModal(false);
+    setTemplateData((prev) => ({ ...prev, [name]: "" }));
+    setVisibility((prev) => ({ ...prev, [name]: true }));
+    setShowAddFieldForm(false);
   };
 
   // Define the order of default fields for positioning
@@ -134,7 +134,7 @@ const EmailTemplateCreator: React.FC = () => {
     }
   });
 
-  // Helper to determine where to render custom fields in the preview
+  // Helper to render custom fields in the preview
   const renderCustomFieldsInSection = (sectionFields: string[]) => {
     return customFields
       .filter((cf) => sectionFields.includes(cf.position))
@@ -156,15 +156,15 @@ const EmailTemplateCreator: React.FC = () => {
         <p style={styles.panelSubtitle}>Customize your invitation below.</p>
         <button
           style={styles.addFieldButton}
-          onClick={() => setShowAddFieldModal(true)}
+          onClick={() => setShowAddFieldForm(!showAddFieldForm)} // Toggle visibility
           title="Add Custom Field"
         >
           +
         </button>
-        {showAddFieldModal && (
+        {showAddFieldForm && (
           <AddFieldModal
             onAdd={addCustomField}
-            onClose={() => setShowAddFieldModal(false)}
+            onClose={() => setShowAddFieldForm(false)}
             existingFields={defaultFields}
           />
         )}
