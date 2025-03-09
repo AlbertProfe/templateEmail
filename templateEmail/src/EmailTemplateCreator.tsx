@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent } from "react";
+import qrPlaceholder from "./assets/attachment_preview.png"; // Assuming the image is in src/assets/
 
 // Define the type for the template data
 interface TemplateData {
@@ -14,6 +15,22 @@ interface TemplateData {
   eventDescription: string;
   footerText1: string;
   footerText2: string;
+}
+
+// Define the type for visibility toggles
+interface VisibilityState {
+  logoUrl: boolean;
+  header: boolean;
+  contactName: boolean;
+  contactEmail: boolean;
+  contactPhone: boolean;
+  qrInstruction: boolean;
+  eventName: boolean;
+  eventDate: boolean;
+  eventLocation: boolean;
+  eventDescription: boolean;
+  footerText1: boolean;
+  footerText2: boolean;
 }
 
 const EmailTemplateCreator: React.FC = () => {
@@ -34,12 +51,30 @@ const EmailTemplateCreator: React.FC = () => {
     footerText2: "© 2025 Invite2Me. All rights reserved.",
   });
 
-  // Typed event handler for input changes
+  const [visibility, setVisibility] = useState<VisibilityState>({
+    logoUrl: true,
+    header: true,
+    contactName: true,
+    contactEmail: true,
+    contactPhone: true,
+    qrInstruction: true,
+    eventName: true,
+    eventDate: true,
+    eventLocation: true,
+    eventDescription: true,
+    footerText1: true,
+    footerText2: true,
+  });
+
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setTemplateData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const toggleVisibility = (field: keyof VisibilityState) => {
+    setVisibility((prev) => ({ ...prev, [field]: !prev[field] }));
   };
 
   return (
@@ -51,145 +86,263 @@ const EmailTemplateCreator: React.FC = () => {
 
         <div style={styles.inputGroup}>
           <label style={styles.label}>Logo URL</label>
-          <input
-            type="text"
-            name="logoUrl"
-            value={templateData.logoUrl}
-            onChange={handleInputChange}
-            style={styles.input}
-            placeholder="Enter logo URL"
-          />
+          <div style={styles.inputWithButton}>
+            <input
+              type="text"
+              name="logoUrl"
+              value={templateData.logoUrl}
+              onChange={handleInputChange}
+              style={styles.input}
+              placeholder="Enter logo URL"
+            />
+            <button
+              onClick={() => toggleVisibility("logoUrl")}
+              style={visibility.logoUrl ? styles.hideButton : styles.showButton}
+            >
+              {visibility.logoUrl ? "Hide" : "Show"}
+            </button>
+          </div>
         </div>
 
         <div style={styles.inputGroup}>
           <label style={styles.label}>Header</label>
-          <input
-            type="text"
-            name="header"
-            value={templateData.header}
-            onChange={handleInputChange}
-            style={styles.input}
-            placeholder="Enter header"
-          />
+          <div style={styles.inputWithButton}>
+            <input
+              type="text"
+              name="header"
+              value={templateData.header}
+              onChange={handleInputChange}
+              style={styles.input}
+              placeholder="Enter header"
+            />
+            <button
+              onClick={() => toggleVisibility("header")}
+              style={visibility.header ? styles.hideButton : styles.showButton}
+            >
+              {visibility.header ? "Hide" : "Show"}
+            </button>
+          </div>
         </div>
 
         <div style={styles.inputGroup}>
           <label style={styles.label}>Contact Name</label>
-          <input
-            type="text"
-            name="contactName"
-            value={templateData.contactName}
-            onChange={handleInputChange}
-            style={styles.input}
-            placeholder="Enter contact name"
-          />
+          <div style={styles.inputWithButton}>
+            <input
+              type="text"
+              name="contactName"
+              value={templateData.contactName}
+              onChange={handleInputChange}
+              style={styles.input}
+              placeholder="Enter contact name"
+            />
+            <button
+              onClick={() => toggleVisibility("contactName")}
+              style={
+                visibility.contactName ? styles.hideButton : styles.showButton
+              }
+            >
+              {visibility.contactName ? "Hide" : "Show"}
+            </button>
+          </div>
         </div>
 
         <div style={styles.inputGroup}>
           <label style={styles.label}>Contact Email</label>
-          <input
-            type="email"
-            name="contactEmail"
-            value={templateData.contactEmail}
-            onChange={handleInputChange}
-            style={styles.input}
-            placeholder="Enter contact email"
-          />
+          <div style={styles.inputWithButton}>
+            <input
+              type="email"
+              name="contactEmail"
+              value={templateData.contactEmail}
+              onChange={handleInputChange}
+              style={styles.input}
+              placeholder="Enter contact email"
+            />
+            <button
+              onClick={() => toggleVisibility("contactEmail")}
+              style={
+                visibility.contactEmail ? styles.hideButton : styles.showButton
+              }
+            >
+              {visibility.contactEmail ? "Hide" : "Show"}
+            </button>
+          </div>
         </div>
 
         <div style={styles.inputGroup}>
           <label style={styles.label}>Contact Phone</label>
-          <input
-            type="text"
-            name="contactPhone"
-            value={templateData.contactPhone}
-            onChange={handleInputChange}
-            style={styles.input}
-            placeholder="Enter contact phone"
-          />
+          <div style={styles.inputWithButton}>
+            <input
+              type="text"
+              name="contactPhone"
+              value={templateData.contactPhone}
+              onChange={handleInputChange}
+              style={styles.input}
+              placeholder="Enter contact phone"
+            />
+            <button
+              onClick={() => toggleVisibility("contactPhone")}
+              style={
+                visibility.contactPhone ? styles.hideButton : styles.showButton
+              }
+            >
+              {visibility.contactPhone ? "Hide" : "Show"}
+            </button>
+          </div>
         </div>
 
         <div style={styles.inputGroup}>
           <label style={styles.label}>QR Instruction</label>
-          <input
-            type="text"
-            name="qrInstruction"
-            value={templateData.qrInstruction}
-            onChange={handleInputChange}
-            style={styles.input}
-            placeholder="Enter QR instruction"
-          />
+          <div style={styles.inputWithButton}>
+            <input
+              type="text"
+              name="qrInstruction"
+              value={templateData.qrInstruction}
+              onChange={handleInputChange}
+              style={styles.input}
+              placeholder="Enter QR instruction"
+            />
+            <button
+              onClick={() => toggleVisibility("qrInstruction")}
+              style={
+                visibility.qrInstruction ? styles.hideButton : styles.showButton
+              }
+            >
+              {visibility.qrInstruction ? "Hide" : "Show"}
+            </button>
+          </div>
         </div>
 
         <div style={styles.inputGroup}>
           <label style={styles.label}>Event Name</label>
-          <input
-            type="text"
-            name="eventName"
-            value={templateData.eventName}
-            onChange={handleInputChange}
-            style={styles.input}
-            placeholder="Enter event name"
-          />
+          <div style={styles.inputWithButton}>
+            <input
+              type="text"
+              name="eventName"
+              value={templateData.eventName}
+              onChange={handleInputChange}
+              style={styles.input}
+              placeholder="Enter event name"
+            />
+            <button
+              onClick={() => toggleVisibility("eventName")}
+              style={
+                visibility.eventName ? styles.hideButton : styles.showButton
+              }
+            >
+              {visibility.eventName ? "Hide" : "Show"}
+            </button>
+          </div>
         </div>
 
         <div style={styles.inputGroup}>
           <label style={styles.label}>Event Date</label>
-          <input
-            type="text"
-            name="eventDate"
-            value={templateData.eventDate}
-            onChange={handleInputChange}
-            style={styles.input}
-            placeholder="Enter event date"
-          />
+          <div style={styles.inputWithButton}>
+            <input
+              type="text"
+              name="eventDate"
+              value={templateData.eventDate}
+              onChange={handleInputChange}
+              style={styles.input}
+              placeholder="Enter event date"
+            />
+            <button
+              onClick={() => toggleVisibility("eventDate")}
+              style={
+                visibility.eventDate ? styles.hideButton : styles.showButton
+              }
+            >
+              {visibility.eventDate ? "Hide" : "Show"}
+            </button>
+          </div>
         </div>
 
         <div style={styles.inputGroup}>
           <label style={styles.label}>Event Location</label>
-          <input
-            type="text"
-            name="eventLocation"
-            value={templateData.eventLocation}
-            onChange={handleInputChange}
-            style={styles.input}
-            placeholder="Enter event location"
-          />
+          <div style={styles.inputWithButton}>
+            <input
+              type="text"
+              name="eventLocation"
+              value={templateData.eventLocation}
+              onChange={handleInputChange}
+              style={styles.input}
+              placeholder="Enter event location"
+            />
+            <button
+              onClick={() => toggleVisibility("eventLocation")}
+              style={
+                visibility.eventLocation ? styles.hideButton : styles.showButton
+              }
+            >
+              {visibility.eventLocation ? "Hide" : "Show"}
+            </button>
+          </div>
         </div>
 
         <div style={styles.inputGroup}>
           <label style={styles.label}>Event Description</label>
-          <textarea
-            name="eventDescription"
-            value={templateData.eventDescription}
-            onChange={handleInputChange}
-            style={styles.textarea}
-            placeholder="Enter event description"
-          />
+          <div style={styles.inputWithButton}>
+            <textarea
+              name="eventDescription"
+              value={templateData.eventDescription}
+              onChange={handleInputChange}
+              style={styles.textarea}
+              placeholder="Enter event description"
+            />
+            <button
+              onClick={() => toggleVisibility("eventDescription")}
+              style={
+                visibility.eventDescription
+                  ? styles.hideButton
+                  : styles.showButton
+              }
+            >
+              {visibility.eventDescription ? "Hide" : "Show"}
+            </button>
+          </div>
         </div>
 
         <div style={styles.inputGroup}>
           <label style={styles.label}>Footer Line 1</label>
-          <input
-            type="text"
-            name="footerText1"
-            value={templateData.footerText1}
-            onChange={handleInputChange}
-            style={styles.input}
-            placeholder="Enter footer text 1"
-          />
+          <div style={styles.inputWithButton}>
+            <input
+              type="text"
+              name="footerText1"
+              value={templateData.footerText1}
+              onChange={handleInputChange}
+              style={styles.input}
+              placeholder="Enter footer text 1"
+            />
+            <button
+              onClick={() => toggleVisibility("footerText1")}
+              style={
+                visibility.footerText1 ? styles.hideButton : styles.showButton
+              }
+            >
+              {visibility.footerText1 ? "Hide" : "Show"}
+            </button>
+          </div>
         </div>
 
         <div style={styles.inputGroup}>
           <label style={styles.label}>Footer Line 2</label>
-          <input
-            type="text"
-            name="footerText2"
-            value={templateData.footerText2}
-            onChange={handleInputChange}
-            style={styles.input}
-            placeholder="Enter footer text 2"
-          />
+          <div style={styles.inputWithButton}>
+            <input
+              type="text"
+              name="footerText2"
+              value={templateData.footerText2}
+              onChange={handleInputChange}
+              style={styles.input}
+              placeholder="Enter footer text 2"
+            />
+            <button
+              onClick={() => toggleVisibility("footerText2")}
+              style={
+                visibility.footerText2 ? styles.hideButton : styles.showButton
+              }
+            >
+              {visibility.footerText2 ? "Hide" : "Show"}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -198,58 +351,91 @@ const EmailTemplateCreator: React.FC = () => {
         <h2 style={styles.panelTitle}>Live Preview</h2>
         <div style={styles.emailPreview}>
           <div style={styles.header}>
-            <img
-              src={templateData.logoUrl}
-              alt="Company Logo"
-              style={styles.headerImg}
-            />
-            <h1 style={styles.headerText}>{templateData.header}</h1>
+            {visibility.logoUrl && (
+              <img
+                src={templateData.logoUrl}
+                alt="Company Logo"
+                style={styles.headerImg}
+              />
+            )}
+            {visibility.header && (
+              <h1 style={styles.headerText}>{templateData.header}</h1>
+            )}
           </div>
 
-          <div style={styles.contactDetails}>
-            <h2 style={styles.sectionTitle}>Contact Information</h2>
-            <p>
-              <strong>Name:</strong> <span>{templateData.contactName}</span>
-            </p>
-            <p>
-              <strong>Email:</strong> <span>{templateData.contactEmail}</span>
-            </p>
-            <p>
-              <strong>Phone:</strong> <span>{templateData.contactPhone}</span>
-            </p>
-          </div>
+          {(visibility.contactName ||
+            visibility.contactEmail ||
+            visibility.contactPhone) && (
+            <div style={styles.contactDetails}>
+              <h2 style={styles.sectionTitle}>Contact Information</h2>
+              {visibility.contactName && (
+                <p>
+                  <strong>Name:</strong> <span>{templateData.contactName}</span>
+                </p>
+              )}
+              {visibility.contactEmail && (
+                <p>
+                  <strong>Email:</strong>{" "}
+                  <span>{templateData.contactEmail}</span>
+                </p>
+              )}
+              {visibility.contactPhone && (
+                <p>
+                  <strong>Phone:</strong>{" "}
+                  <span>{templateData.contactPhone}</span>
+                </p>
+              )}
+            </div>
+          )}
 
-          <div style={styles.qrCode}>
-            <img
-              src="/assets/attachment_preview.png"
-              alt="QR Code Invitation"
-              style={styles.qrImg}
-            />
-            <p>{templateData.qrInstruction}</p>
-          </div>
+          {visibility.qrInstruction && (
+            <div style={styles.qrCode}>
+              <img
+                src={qrPlaceholder}
+                alt="QR Code Invitation"
+                style={styles.qrImg}
+              />
+              {visibility.qrInstruction && <p>{templateData.qrInstruction}</p>}
+            </div>
+          )}
 
-          <div style={styles.eventDetails}>
-            <h2 style={styles.sectionTitle}>Event Details</h2>
-            <p>
-              <strong>Event:</strong> <span>{templateData.eventName}</span>
-            </p>
-            <p>
-              <strong>Date:</strong> <span>{templateData.eventDate}</span>
-            </p>
-            <p>
-              <strong>Location:</strong>{" "}
-              <span>{templateData.eventLocation}</span>
-            </p>
-            <p>
-              <strong>Description:</strong>{" "}
-              <span>{templateData.eventDescription}</span>
-            </p>
-          </div>
+          {(visibility.eventName ||
+            visibility.eventDate ||
+            visibility.eventLocation ||
+            visibility.eventDescription) && (
+            <div style={styles.eventDetails}>
+              <h2 style={styles.sectionTitle}>Event Details</h2>
+              {visibility.eventName && (
+                <p>
+                  <strong>Event:</strong> <span>{templateData.eventName}</span>
+                </p>
+              )}
+              {visibility.eventDate && (
+                <p>
+                  <strong>Date:</strong> <span>{templateData.eventDate}</span>
+                </p>
+              )}
+              {visibility.eventLocation && (
+                <p>
+                  <strong>Location:</strong>{" "}
+                  <span>{templateData.eventLocation}</span>
+                </p>
+              )}
+              {visibility.eventDescription && (
+                <p>
+                  <strong>Description:</strong>{" "}
+                  <span>{templateData.eventDescription}</span>
+                </p>
+              )}
+            </div>
+          )}
 
-          <div style={styles.footer}>
-            <p>{templateData.footerText1}</p>
-            <p>{templateData.footerText2}</p>
-          </div>
+          {(visibility.footerText1 || visibility.footerText2) && (
+            <div style={styles.footer}>
+              {visibility.footerText1 && <p>{templateData.footerText1}</p>}
+              {visibility.footerText2 && <p>{templateData.footerText2}</p>}
+            </div>
+          )}
         </div>
         <button style={styles.saveButton}>Save Template</button>
       </div>
@@ -310,7 +496,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     marginBottom: "6px",
   },
   input: {
-    width: "100%",
+    width: "70%", // Adjusted to make room for the button
     padding: "10px",
     fontSize: "16px",
     borderRadius: "5px",
@@ -319,7 +505,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     transition: "border-color 0.2s",
   },
   textarea: {
-    width: "100%",
+    width: "70%", // Adjusted to make room for the button
     padding: "10px",
     fontSize: "16px",
     borderRadius: "5px",
@@ -327,6 +513,31 @@ const styles: { [key: string]: React.CSSProperties } = {
     minHeight: "100px",
     resize: "vertical",
     outline: "none",
+  },
+  inputWithButton: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+  },
+  hideButton: {
+    padding: "8px 12px",
+    fontSize: "14px",
+    backgroundColor: "#e74c3c",
+    color: "#fff",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    transition: "background-color 0.2s",
+  },
+  showButton: {
+    padding: "8px 12px",
+    fontSize: "14px",
+    backgroundColor: "#2ecc71",
+    color: "#fff",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    transition: "background-color 0.2s",
   },
   emailPreview: {
     width: "100%",
