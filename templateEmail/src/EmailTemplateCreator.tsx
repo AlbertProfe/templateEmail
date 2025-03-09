@@ -1,6 +1,6 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import qrPlaceholder from "./assets/attachment_preview.png";
-import AddFieldModal from "./AddFieldModal"; // New child component
+import AddFieldModal from "./AddFieldModal";
 
 // Define types for template data and custom fields
 interface TemplateData {
@@ -77,6 +77,13 @@ const EmailTemplateCreator: React.FC = () => {
   const [customFields, setCustomFields] = useState<CustomField[]>([]);
   const [showAddFieldModal, setShowAddFieldModal] = useState(false);
 
+  // Hook to log or persist customFields whenever it changes
+  useEffect(() => {
+    console.log("Custom Fields Updated:", customFields); // For debugging; replace with persistence logic if needed
+    // Example: Save to localStorage (uncomment to use)
+    // localStorage.setItem('customFields', JSON.stringify(customFields));
+  }, [customFields]);
+
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -126,6 +133,20 @@ const EmailTemplateCreator: React.FC = () => {
       allFields.push(field.name); // Fallback: append if position not found
     }
   });
+
+  // Helper to determine where to render custom fields in the preview
+  const renderCustomFieldsInSection = (sectionFields: string[]) => {
+    return customFields
+      .filter((cf) => sectionFields.includes(cf.position))
+      .map((field) =>
+        visibility[field.name] ? (
+          <p key={field.name}>
+            <strong>{field.name}:</strong>{" "}
+            <span>{templateData[field.name]}</span>
+          </p>
+        ) : null
+      );
+  };
 
   return (
     <div style={styles.container}>
@@ -213,6 +234,7 @@ const EmailTemplateCreator: React.FC = () => {
             {visibility.header && (
               <h1 style={styles.headerText}>{templateData.header}</h1>
             )}
+            {renderCustomFieldsInSection(["logoUrl", "header"])}
           </div>
 
           {(visibility.contactName ||
@@ -237,6 +259,11 @@ const EmailTemplateCreator: React.FC = () => {
                   <span>{templateData.contactPhone}</span>
                 </p>
               )}
+              {renderCustomFieldsInSection([
+                "contactName",
+                "contactEmail",
+                "contactPhone",
+              ])}
             </div>
           )}
 
@@ -248,6 +275,7 @@ const EmailTemplateCreator: React.FC = () => {
                 style={styles.qrImg}
               />
               <p>{templateData.qrInstruction}</p>
+              {renderCustomFieldsInSection(["qrInstruction"])}
             </div>
           )}
 
@@ -279,6 +307,12 @@ const EmailTemplateCreator: React.FC = () => {
                   <span>{templateData.eventDescription}</span>
                 </p>
               )}
+              {renderCustomFieldsInSection([
+                "eventName",
+                "eventDate",
+                "eventLocation",
+                "eventDescription",
+              ])}
             </div>
           )}
 
@@ -288,14 +322,7 @@ const EmailTemplateCreator: React.FC = () => {
             <div style={styles.footer}>
               {visibility.footerText1 && <p>{templateData.footerText1}</p>}
               {visibility.footerText2 && <p>{templateData.footerText2}</p>}
-              {customFields.map((field) =>
-                visibility[field.name] ? (
-                  <p key={field.name}>
-                    <strong>{field.name}:</strong>{" "}
-                    <span>{templateData[field.name]}</span>
-                  </p>
-                ) : null
-              )}
+              {renderCustomFieldsInSection(["footerText1", "footerText2"])}
             </div>
           )}
         </div>
@@ -305,7 +332,7 @@ const EmailTemplateCreator: React.FC = () => {
   );
 };
 
-// Inline styles
+// Inline styles (unchanged)
 const styles: { [key: string]: React.CSSProperties } = {
   container: {
     display: "flex",
