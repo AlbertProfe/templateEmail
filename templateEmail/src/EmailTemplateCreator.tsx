@@ -2,23 +2,39 @@ import React, { useState, ChangeEvent } from "react";
 
 // Define the type for the template data
 interface TemplateData {
+  logoUrl: string;
   header: string;
-  subheader: string;
-  body: string;
-  buttonText: string;
-  footer: string;
+  contactName: string;
+  contactEmail: string;
+  contactPhone: string;
+  qrInstruction: string;
+  eventName: string;
+  eventDate: string;
+  eventLocation: string;
+  eventDescription: string;
+  footerText1: string;
+  footerText2: string;
 }
 
 const EmailTemplateCreator: React.FC = () => {
   const [templateData, setTemplateData] = useState<TemplateData>({
-    header: "Join Us for an Exclusive Event!",
-    subheader: "We can’t wait to see you there.",
-    body: "You’re invited to our special event. Scan the QR code below to RSVP!",
-    buttonText: "RSVP Now",
-    footer: "Event Date: March 20, 2025 | Location: xAI Headquarters",
+    logoUrl:
+      "https://www.tailorbrands.com/wp-content/uploads/2021/05/nike-300x300.png",
+    header: "You're Invited!",
+    contactName: "John Doe",
+    contactEmail: "john.doe@example.com",
+    contactPhone: "+1 555-123-4567",
+    qrInstruction: "Scan this QR code upon arrival.",
+    eventName: "Primavera Sound 2025",
+    eventDate: "May 30, 2025 00:00",
+    eventLocation: "Parc del Fòrum, Barcelona",
+    eventDescription:
+      "One of Europe's biggest music festivals, featuring a diverse lineup of international artists.",
+    footerText1: "This invitation is non-transferable.",
+    footerText2: "© 2025 Invite2Me. All rights reserved.",
   });
 
-  // Type the event handler for input changes
+  // Typed event handler for input changes
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -28,10 +44,22 @@ const EmailTemplateCreator: React.FC = () => {
 
   return (
     <div style={styles.container}>
-      {/* Left Panel: Input Form */}
+      {/* Left Panel: Editor */}
       <div style={styles.editorPanel}>
         <h2 style={styles.panelTitle}>Create Your Email Template</h2>
         <p style={styles.panelSubtitle}>Customize your invitation below.</p>
+
+        <div style={styles.inputGroup}>
+          <label style={styles.label}>Logo URL</label>
+          <input
+            type="text"
+            name="logoUrl"
+            value={templateData.logoUrl}
+            onChange={handleInputChange}
+            style={styles.input}
+            placeholder="Enter logo URL"
+          />
+        </div>
 
         <div style={styles.inputGroup}>
           <label style={styles.label}>Header</label>
@@ -41,68 +69,187 @@ const EmailTemplateCreator: React.FC = () => {
             value={templateData.header}
             onChange={handleInputChange}
             style={styles.input}
-            placeholder="Enter your header"
+            placeholder="Enter header"
           />
         </div>
 
         <div style={styles.inputGroup}>
-          <label style={styles.label}>Subheader</label>
+          <label style={styles.label}>Contact Name</label>
           <input
             type="text"
-            name="subheader"
-            value={templateData.subheader}
+            name="contactName"
+            value={templateData.contactName}
             onChange={handleInputChange}
             style={styles.input}
-            placeholder="Enter your subheader"
+            placeholder="Enter contact name"
           />
         </div>
 
         <div style={styles.inputGroup}>
-          <label style={styles.label}>Body Text</label>
+          <label style={styles.label}>Contact Email</label>
+          <input
+            type="email"
+            name="contactEmail"
+            value={templateData.contactEmail}
+            onChange={handleInputChange}
+            style={styles.input}
+            placeholder="Enter contact email"
+          />
+        </div>
+
+        <div style={styles.inputGroup}>
+          <label style={styles.label}>Contact Phone</label>
+          <input
+            type="text"
+            name="contactPhone"
+            value={templateData.contactPhone}
+            onChange={handleInputChange}
+            style={styles.input}
+            placeholder="Enter contact phone"
+          />
+        </div>
+
+        <div style={styles.inputGroup}>
+          <label style={styles.label}>QR Instruction</label>
+          <input
+            type="text"
+            name="qrInstruction"
+            value={templateData.qrInstruction}
+            onChange={handleInputChange}
+            style={styles.input}
+            placeholder="Enter QR instruction"
+          />
+        </div>
+
+        <div style={styles.inputGroup}>
+          <label style={styles.label}>Event Name</label>
+          <input
+            type="text"
+            name="eventName"
+            value={templateData.eventName}
+            onChange={handleInputChange}
+            style={styles.input}
+            placeholder="Enter event name"
+          />
+        </div>
+
+        <div style={styles.inputGroup}>
+          <label style={styles.label}>Event Date</label>
+          <input
+            type="text"
+            name="eventDate"
+            value={templateData.eventDate}
+            onChange={handleInputChange}
+            style={styles.input}
+            placeholder="Enter event date"
+          />
+        </div>
+
+        <div style={styles.inputGroup}>
+          <label style={styles.label}>Event Location</label>
+          <input
+            type="text"
+            name="eventLocation"
+            value={templateData.eventLocation}
+            onChange={handleInputChange}
+            style={styles.input}
+            placeholder="Enter event location"
+          />
+        </div>
+
+        <div style={styles.inputGroup}>
+          <label style={styles.label}>Event Description</label>
           <textarea
-            name="body"
-            value={templateData.body}
+            name="eventDescription"
+            value={templateData.eventDescription}
             onChange={handleInputChange}
             style={styles.textarea}
-            placeholder="Enter the main message"
+            placeholder="Enter event description"
           />
         </div>
 
         <div style={styles.inputGroup}>
-          <label style={styles.label}>Button Text</label>
+          <label style={styles.label}>Footer Line 1</label>
           <input
             type="text"
-            name="buttonText"
-            value={templateData.buttonText}
+            name="footerText1"
+            value={templateData.footerText1}
             onChange={handleInputChange}
             style={styles.input}
-            placeholder="Enter button text"
+            placeholder="Enter footer text 1"
           />
         </div>
 
         <div style={styles.inputGroup}>
-          <label style={styles.label}>Footer</label>
+          <label style={styles.label}>Footer Line 2</label>
           <input
             type="text"
-            name="footer"
-            value={templateData.footer}
+            name="footerText2"
+            value={templateData.footerText2}
             onChange={handleInputChange}
             style={styles.input}
-            placeholder="Enter footer details"
+            placeholder="Enter footer text 2"
           />
         </div>
       </div>
 
-      {/* Right Panel: Live Preview */}
+      {/* Right Panel: Preview */}
       <div style={styles.previewPanel}>
         <h2 style={styles.panelTitle}>Live Preview</h2>
         <div style={styles.emailPreview}>
-          <div style={styles.emailHeader}>{templateData.header}</div>
-          <div style={styles.emailSubheader}>{templateData.subheader}</div>
-          <div style={styles.emailBody}>{templateData.body}</div>
-          <div style={styles.qrPlaceholder}>[QR Code Placeholder]</div>
-          <button style={styles.emailButton}>{templateData.buttonText}</button>
-          <div style={styles.emailFooter}>{templateData.footer}</div>
+          <div style={styles.header}>
+            <img
+              src={templateData.logoUrl}
+              alt="Company Logo"
+              style={styles.headerImg}
+            />
+            <h1 style={styles.headerText}>{templateData.header}</h1>
+          </div>
+
+          <div style={styles.contactDetails}>
+            <h2 style={styles.sectionTitle}>Contact Information</h2>
+            <p>
+              <strong>Name:</strong> <span>{templateData.contactName}</span>
+            </p>
+            <p>
+              <strong>Email:</strong> <span>{templateData.contactEmail}</span>
+            </p>
+            <p>
+              <strong>Phone:</strong> <span>{templateData.contactPhone}</span>
+            </p>
+          </div>
+
+          <div style={styles.qrCode}>
+            <img
+              src="/assets/attachment_preview.png"
+              alt="QR Code Invitation"
+              style={styles.qrImg}
+            />
+            <p>{templateData.qrInstruction}</p>
+          </div>
+
+          <div style={styles.eventDetails}>
+            <h2 style={styles.sectionTitle}>Event Details</h2>
+            <p>
+              <strong>Event:</strong> <span>{templateData.eventName}</span>
+            </p>
+            <p>
+              <strong>Date:</strong> <span>{templateData.eventDate}</span>
+            </p>
+            <p>
+              <strong>Location:</strong>{" "}
+              <span>{templateData.eventLocation}</span>
+            </p>
+            <p>
+              <strong>Description:</strong>{" "}
+              <span>{templateData.eventDescription}</span>
+            </p>
+          </div>
+
+          <div style={styles.footer}>
+            <p>{templateData.footerText1}</p>
+            <p>{templateData.footerText2}</p>
+          </div>
         </div>
         <button style={styles.saveButton}>Save Template</button>
       </div>
@@ -110,24 +257,24 @@ const EmailTemplateCreator: React.FC = () => {
   );
 };
 
-// Inline styles (typed as React.CSSProperties)
+// Inline styles typed as React.CSSProperties
 const styles: { [key: string]: React.CSSProperties } = {
   container: {
     display: "flex",
     height: "100vh",
-    fontFamily: "'Arial', sans-serif",
-    backgroundColor: "#f5f7fa",
+    fontFamily: "Arial, sans-serif",
+    backgroundColor: "#f4f4f4",
     padding: "20px",
     gap: "20px",
-    flexWrap: "wrap", // Responsive for smaller screens
+    flexWrap: "wrap",
   },
   editorPanel: {
     flex: 1,
     minWidth: "300px",
     backgroundColor: "#fff",
     padding: "20px",
-    borderRadius: "12px",
-    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+    borderRadius: "5px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
     overflowY: "auto",
   },
   previewPanel: {
@@ -135,8 +282,8 @@ const styles: { [key: string]: React.CSSProperties } = {
     minWidth: "300px",
     backgroundColor: "#fff",
     padding: "20px",
-    borderRadius: "12px",
-    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+    borderRadius: "5px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -149,7 +296,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   panelSubtitle: {
     fontSize: "14px",
-    color: "#666",
+    color: "#777",
     marginBottom: "20px",
   },
   inputGroup: {
@@ -166,7 +313,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     width: "100%",
     padding: "10px",
     fontSize: "16px",
-    borderRadius: "8px",
+    borderRadius: "5px",
     border: "1px solid #ddd",
     outline: "none",
     transition: "border-color 0.2s",
@@ -175,7 +322,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     width: "100%",
     padding: "10px",
     fontSize: "16px",
-    borderRadius: "8px",
+    borderRadius: "5px",
     border: "1px solid #ddd",
     minHeight: "100px",
     resize: "vertical",
@@ -183,56 +330,54 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   emailPreview: {
     width: "100%",
-    maxWidth: "400px",
-    backgroundColor: "#fafafa",
-    borderRadius: "12px",
-    padding: "20px",
-    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
-    textAlign: "center",
-    marginBottom: "20px",
+    maxWidth: "600px",
+    backgroundColor: "#fff",
+    padding: "30px",
+    borderRadius: "5px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+    color: "#333",
   },
-  emailHeader: {
+  header: {
+    textAlign: "center",
+    paddingBottom: "20px",
+    borderBottom: "2px solid #eee",
+  },
+  headerImg: {
+    maxWidth: "200px",
+    height: "auto",
+  },
+  headerText: {
     fontSize: "24px",
-    fontWeight: 600,
-    color: "#2c3e50",
+    margin: "10px 0 0",
+  },
+  contactDetails: {
+    marginTop: "20px",
+  },
+  sectionTitle: {
+    fontSize: "18px",
+    color: "#555",
     marginBottom: "10px",
   },
-  emailSubheader: {
-    fontSize: "16px",
-    color: "#7f8c8d",
-    marginBottom: "15px",
+  qrCode: {
+    textAlign: "center",
+    margin: "30px 0",
   },
-  emailBody: {
-    fontSize: "16px",
-    color: "#34495e",
-    marginBottom: "20px",
+  qrImg: {
+    maxWidth: "200px",
+    height: "auto",
+    border: "1px solid #ddd",
+    borderRadius: "5px",
   },
-  qrPlaceholder: {
-    width: "100px",
-    height: "100px",
-    backgroundColor: "#ddd",
-    margin: "0 auto 20px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "12px",
-    color: "#777",
-    borderRadius: "8px",
-  },
-  emailButton: {
-    padding: "10px 20px",
-    fontSize: "16px",
-    backgroundColor: "#3498db",
-    color: "#fff",
-    border: "none",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "background-color 0.2s",
-  },
-  emailFooter: {
-    fontSize: "12px",
-    color: "#95a5a6",
+  eventDetails: {
     marginTop: "20px",
+    paddingTop: "20px",
+    borderTop: "1px solid #eee",
+  },
+  footer: {
+    marginTop: "30px",
+    textAlign: "center",
+    color: "#777",
+    fontSize: "0.8em",
   },
   saveButton: {
     padding: "12px 30px",
@@ -240,20 +385,11 @@ const styles: { [key: string]: React.CSSProperties } = {
     backgroundColor: "#2ecc71",
     color: "#fff",
     border: "none",
-    borderRadius: "8px",
+    borderRadius: "5px",
     cursor: "pointer",
     transition: "background-color 0.2s",
+    marginTop: "20px",
   },
 };
-
-// Hover effects (optional, add via CSS file if not using inline styles)
-const hoverStyles = `
-  input:focus, textarea:focus {
-    border-color: #3498db;
-  }
-  button:hover {
-    opacity: 0.9;
-  }
-`;
 
 export default EmailTemplateCreator;
