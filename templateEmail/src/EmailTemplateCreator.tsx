@@ -1,6 +1,8 @@
-import React, { useState, ChangeEvent } from 'react';
-import qrPlaceholder from './assets/attachment_preview.png'; // Assuming the image is in src/assets/
+import React, { useState, ChangeEvent } from "react";
+import qrPlaceholder from "./assets/attachment_preview.png";
+import AddFieldModal from "./AddFieldModal"; // New child component
 
+// Define types for template data and custom fields
 interface TemplateData {
   logoUrl: string;
   header: string;
@@ -14,6 +16,7 @@ interface TemplateData {
   eventDescription: string;
   footerText1: string;
   footerText2: string;
+  [key: string]: string; // Allow dynamic custom fields
 }
 
 interface VisibilityState {
@@ -29,23 +32,31 @@ interface VisibilityState {
   eventDescription: boolean;
   footerText1: boolean;
   footerText2: boolean;
+  [key: string]: boolean; // Allow dynamic custom fields
+}
+
+interface CustomField {
+  name: string;
+  placeholder: string;
+  position: string; // Reference to the field it should appear before
 }
 
 const EmailTemplateCreator: React.FC = () => {
   const [templateData, setTemplateData] = useState<TemplateData>({
-    logoUrl: 'https://www.tailorbrands.com/wp-content/uploads/2021/05/nike-300x300.png',
+    logoUrl:
+      "https://www.tailorbrands.com/wp-content/uploads/2021/05/nike-300x300.png",
     header: "You're Invited!",
-    contactName: 'John Doe',
-    contactEmail: 'john.doe@example.com',
-    contactPhone: '+1 555-123-4567',
-    qrInstruction: 'Scan this QR code upon arrival.',
-    eventName: 'Primavera Sound 2025',
-    eventDate: 'May 30, 2025 00:00',
-    eventLocation: 'Parc del Fòrum, Barcelona',
+    contactName: "John Doe",
+    contactEmail: "john.doe@example.com",
+    contactPhone: "+1 555-123-4567",
+    qrInstruction: "Scan this QR code upon arrival.",
+    eventName: "Primavera Sound 2025",
+    eventDate: "May 30, 2025 00:00",
+    eventLocation: "Parc del Fòrum, Barcelona",
     eventDescription:
       "One of Europe's biggest music festivals, featuring a diverse lineup of international artists.",
-    footerText1: 'This invitation is non-transferable.',
-    footerText2: '© 2025 Invite2Me. All rights reserved.',
+    footerText1: "This invitation is non-transferable.",
+    footerText2: "© 2025 Invite2Me. All rights reserved.",
   });
 
   const [visibility, setVisibility] = useState<VisibilityState>({
@@ -63,6 +74,9 @@ const EmailTemplateCreator: React.FC = () => {
     footerText2: true,
   });
 
+  const [customFields, setCustomFields] = useState<CustomField[]>([]);
+  const [showAddFieldModal, setShowAddFieldModal] = useState(false);
+
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -70,9 +84,48 @@ const EmailTemplateCreator: React.FC = () => {
     setTemplateData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const toggleVisibility = (field: keyof VisibilityState) => {
+  const toggleVisibility = (field: string) => {
     setVisibility((prev) => ({ ...prev, [field]: !prev[field] }));
   };
+
+  const addCustomField = (
+    name: string,
+    placeholder: string,
+    position: string
+  ) => {
+    const newField = { name, placeholder, position };
+    setCustomFields((prev) => [...prev, newField]);
+    setTemplateData((prev) => ({ ...prev, [name]: "" })); // Add to template data with empty value
+    setVisibility((prev) => ({ ...prev, [name]: true })); // Default to visible
+    setShowAddFieldModal(false);
+  };
+
+  // Define the order of default fields for positioning
+  const defaultFields = [
+    "logoUrl",
+    "header",
+    "contactName",
+    "contactEmail",
+    "contactPhone",
+    "qrInstruction",
+    "eventName",
+    "eventDate",
+    "eventLocation",
+    "eventDescription",
+    "footerText1",
+    "footerText2",
+  ];
+
+  // Combine default and custom fields with positioning
+  const allFields = [...defaultFields];
+  customFields.forEach((field) => {
+    const index = allFields.indexOf(field.position);
+    if (index !== -1) {
+      allFields.splice(index, 0, field.name);
+    } else {
+      allFields.push(field.name); // Fallback: append if position not found
+    }
+  });
 
   return (
     <div style={styles.container}>
@@ -80,257 +133,69 @@ const EmailTemplateCreator: React.FC = () => {
       <div style={styles.editorPanel}>
         <h2 style={styles.panelTitle}>Create Your Email Template</h2>
         <p style={styles.panelSubtitle}>Customize your invitation below.</p>
+        <button
+          style={styles.addFieldButton}
+          onClick={() => setShowAddFieldModal(true)}
+          title="Add Custom Field"
+        >
+          +
+        </button>
+        {showAddFieldModal && (
+          <AddFieldModal
+            onAdd={addCustomField}
+            onClose={() => setShowAddFieldModal(false)}
+            existingFields={defaultFields}
+          />
+        )}
 
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Logo URL</label>
-          <div style={styles.inputWithButton}>
-            <input
-              type="text"
-              name="logoUrl"
-              value={templateData.logoUrl}
-              onChange={handleInputChange}
-              style={styles.input}
-              placeholder="Enter logo URL"
-            />
-            <button
-              onClick={() => toggleVisibility('logoUrl')}
-              style={styles.toggleButton}
-              title={visibility.logoUrl ? 'Hide' : 'Show'}
-            >
-              {visibility.logoUrl ? '👁️' : '👁️‍🗨️'}
-            </button>
-          </div>
-        </div>
-
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Header</label>
-          <div style={styles.inputWithButton}>
-            <input
-              type="text"
-              name="header"
-              value={templateData.header}
-              onChange={handleInputChange}
-              style={styles.input}
-              placeholder="Enter header"
-            />
-            <button
-              onClick={() => toggleVisibility('header')}
-              style={styles.toggleButton}
-              title={visibility.header ? 'Hide' : 'Show'}
-            >
-              {visibility.header ? '👁️' : '👁️‍🗨️'}
-            </button>
-          </div>
-        </div>
-
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Contact Name</label>
-          <div style={styles.inputWithButton}>
-            <input
-              type="text"
-              name="contactName"
-              value={templateData.contactName}
-              onChange={handleInputChange}
-              style={styles.input}
-              placeholder="Enter contact name"
-            />
-            <button
-              onClick={() => toggleVisibility('contactName')}
-              style={styles.toggleButton}
-              title={visibility.contactName ? 'Hide' : 'Show'}
-            >
-              {visibility.contactName ? '👁️' : '👁️‍🗨️'}
-            </button>
-          </div>
-        </div>
-
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Contact Email</label>
-          <div style={styles.inputWithButton}>
-            <input
-              type="email"
-              name="contactEmail"
-              value={templateData.contactEmail}
-              onChange={handleInputChange}
-              style={styles.input}
-              placeholder="Enter contact email"
-            />
-            <button
-              onClick={() => toggleVisibility('contactEmail')}
-              style={styles.toggleButton}
-              title={visibility.contactEmail ? 'Hide' : 'Show'}
-            >
-              {visibility.contactEmail ? '👁️' : '👁️‍🗨️'}
-            </button>
-          </div>
-        </div>
-
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Contact Phone</label>
-          <div style={styles.inputWithButton}>
-            <input
-              type="text"
-              name="contactPhone"
-              value={templateData.contactPhone}
-              onChange={handleInputChange}
-              style={styles.input}
-              placeholder="Enter contact phone"
-            />
-            <button
-              onClick={() => toggleVisibility('contactPhone')}
-              style={styles.toggleButton}
-              title={visibility.contactPhone ? 'Hide' : 'Show'}
-            >
-              {visibility.contactPhone ? '👁️' : '👁️‍🗨️'}
-            </button>
-          </div>
-        </div>
-
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>QR Instruction</label>
-          <div style={styles.inputWithButton}>
-            <input
-              type="text"
-              name="qrInstruction"
-              value={templateData.qrInstruction}
-              onChange={handleInputChange}
-              style={styles.input}
-              placeholder="Enter QR instruction"
-            />
-            <button
-              onClick={() => toggleVisibility('qrInstruction')}
-              style={styles.toggleButton}
-              title={visibility.qrInstruction ? 'Hide' : 'Show'}
-            >
-              {visibility.qrInstruction ? '👁️' : '👁️‍🗨️'}
-            </button>
-          </div>
-        </div>
-
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Event Name</label>
-          <div style={styles.inputWithButton}>
-            <input
-              type="text"
-              name="eventName"
-              value={templateData.eventName}
-              onChange={handleInputChange}
-              style={styles.input}
-              placeholder="Enter event name"
-            />
-            <button
-              onClick={() => toggleVisibility('eventName')}
-              style={styles.toggleButton}
-              title={visibility.eventName ? 'Hide' : 'Show'}
-            >
-              {visibility.eventName ? '👁️' : '👁️‍🗨️'}
-            </button>
-          </div>
-        </div>
-
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Event Date</label>
-          <div style={styles.inputWithButton}>
-            <input
-              type="text"
-              name="eventDate"
-              value={templateData.eventDate}
-              onChange={handleInputChange}
-              style={styles.input}
-              placeholder="Enter event date"
-            />
-            <button
-              onClick={() => toggleVisibility('eventDate')}
-              style={styles.toggleButton}
-              title={visibility.eventDate ? 'Hide' : 'Show'}
-            >
-              {visibility.eventDate ? '👁️' : '👁️‍🗨️'}
-            </button>
-          </div>
-        </div>
-
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Event Location</label>
-          <div style={styles.inputWithButton}>
-            <input
-              type="text"
-              name="eventLocation"
-              value={templateData.eventLocation}
-              onChange={handleInputChange}
-              style={styles.input}
-              placeholder="Enter event location"
-            />
-            <button
-              onClick={() => toggleVisibility('eventLocation')}
-              style={styles.toggleButton}
-              title={visibility.eventLocation ? 'Hide' : 'Show'}
-            >
-              {visibility.eventLocation ? '👁️' : '👁️‍🗨️'}
-            </button>
-          </div>
-        </div>
-
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Event Description</label>
-          <div style={styles.inputWithButton}>
-            <textarea
-              name="eventDescription"
-              value={templateData.eventDescription}
-              onChange={handleInputChange}
-              style={styles.textarea}
-              placeholder="Enter event description"
-            />
-            <button
-              onClick={() => toggleVisibility('eventDescription')}
-              style={styles.toggleButton}
-              title={visibility.eventDescription ? 'Hide' : 'Show'}
-            >
-              {visibility.eventDescription ? '👁️' : '👁️‍🗨️'}
-            </button>
-          </div>
-        </div>
-
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Footer Line 1</label>
-          <div style={styles.inputWithButton}>
-            <input
-              type="text"
-              name="footerText1"
-              value={templateData.footerText1}
-              onChange={handleInputChange}
-              style={styles.input}
-              placeholder="Enter footer text 1"
-            />
-            <button
-              onClick={() => toggleVisibility('footerText1')}
-              style={styles.toggleButton}
-              title={visibility.footerText1 ? 'Hide' : 'Show'}
-            >
-              {visibility.footerText1 ? '👁️' : '👁️‍🗨️'}
-            </button>
-          </div>
-        </div>
-
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Footer Line 2</label>
-          <div style={styles.inputWithButton}>
-            <input
-              type="text"
-              name="footerText2"
-              value={templateData.footerText2}
-              onChange={handleInputChange}
-              style={styles.input}
-              placeholder="Enter footer text 2"
-            />
-            <button
-              onClick={() => toggleVisibility('footerText2')}
-              style={styles.toggleButton}
-              title={visibility.footerText2 ? 'Hide' : 'Show'}
-            >
-              {visibility.footerText2 ? '👁️' : '👁️‍🗨️'}
-            </button>
-          </div>
-        </div>
+        {allFields.map((fieldName) => {
+          const customField = customFields.find((cf) => cf.name === fieldName);
+          const isTextArea = fieldName === "eventDescription";
+          return (
+            <div key={fieldName} style={styles.inputGroup}>
+              <label style={styles.label}>
+                {customField
+                  ? customField.name
+                  : fieldName.replace(/([A-Z])/g, " $1").trim()}
+              </label>
+              <div style={styles.inputWithButton}>
+                {isTextArea ? (
+                  <textarea
+                    name={fieldName}
+                    value={templateData[fieldName]}
+                    onChange={handleInputChange}
+                    style={styles.textarea}
+                    placeholder={
+                      customField
+                        ? customField.placeholder
+                        : `Enter ${fieldName}`
+                    }
+                  />
+                ) : (
+                  <input
+                    type="text"
+                    name={fieldName}
+                    value={templateData[fieldName]}
+                    onChange={handleInputChange}
+                    style={styles.input}
+                    placeholder={
+                      customField
+                        ? customField.placeholder
+                        : `Enter ${fieldName}`
+                    }
+                  />
+                )}
+                <button
+                  onClick={() => toggleVisibility(fieldName)}
+                  style={styles.toggleButton}
+                  title={visibility[fieldName] ? "Hide" : "Show"}
+                >
+                  {visibility[fieldName] ? "👁️" : "👁️‍🗨️"}
+                </button>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Right Panel: Preview */}
@@ -339,12 +204,20 @@ const EmailTemplateCreator: React.FC = () => {
         <div style={styles.emailPreview}>
           <div style={styles.header}>
             {visibility.logoUrl && (
-              <img src={templateData.logoUrl} alt="Company Logo" style={styles.headerImg} />
+              <img
+                src={templateData.logoUrl}
+                alt="Company Logo"
+                style={styles.headerImg}
+              />
             )}
-            {visibility.header && <h1 style={styles.headerText}>{templateData.header}</h1>}
+            {visibility.header && (
+              <h1 style={styles.headerText}>{templateData.header}</h1>
+            )}
           </div>
 
-          {(visibility.contactName || visibility.contactEmail || visibility.contactPhone) && (
+          {(visibility.contactName ||
+            visibility.contactEmail ||
+            visibility.contactPhone) && (
             <div style={styles.contactDetails}>
               <h2 style={styles.sectionTitle}>Contact Information</h2>
               {visibility.contactName && (
@@ -354,25 +227,34 @@ const EmailTemplateCreator: React.FC = () => {
               )}
               {visibility.contactEmail && (
                 <p>
-                  <strong>Email:</strong> <span>{templateData.contactEmail}</span>
+                  <strong>Email:</strong>{" "}
+                  <span>{templateData.contactEmail}</span>
                 </p>
               )}
               {visibility.contactPhone && (
                 <p>
-                  <strong>Phone:</strong> <span>{templateData.contactPhone}</span>
+                  <strong>Phone:</strong>{" "}
+                  <span>{templateData.contactPhone}</span>
                 </p>
               )}
             </div>
           )}
 
-          {(visibility.qrInstruction) && (
+          {visibility.qrInstruction && (
             <div style={styles.qrCode}>
-              <img src={qrPlaceholder} alt="QR Code Invitation" style={styles.qrImg} />
-              {visibility.qrInstruction && <p>{templateData.qrInstruction}</p>}
+              <img
+                src={qrPlaceholder}
+                alt="QR Code Invitation"
+                style={styles.qrImg}
+              />
+              <p>{templateData.qrInstruction}</p>
             </div>
           )}
 
-          {(visibility.eventName || visibility.eventDate || visibility.eventLocation || visibility.eventDescription) && (
+          {(visibility.eventName ||
+            visibility.eventDate ||
+            visibility.eventLocation ||
+            visibility.eventDescription) && (
             <div style={styles.eventDetails}>
               <h2 style={styles.sectionTitle}>Event Details</h2>
               {visibility.eventName && (
@@ -387,21 +269,33 @@ const EmailTemplateCreator: React.FC = () => {
               )}
               {visibility.eventLocation && (
                 <p>
-                  <strong>Location:</strong> <span>{templateData.eventLocation}</span>
+                  <strong>Location:</strong>{" "}
+                  <span>{templateData.eventLocation}</span>
                 </p>
               )}
               {visibility.eventDescription && (
                 <p>
-                  <strong>Description:</strong> <span>{templateData.eventDescription}</span>
+                  <strong>Description:</strong>{" "}
+                  <span>{templateData.eventDescription}</span>
                 </p>
               )}
             </div>
           )}
 
-          {(visibility.footerText1 || visibility.footerText2) && (
+          {(visibility.footerText1 ||
+            visibility.footerText2 ||
+            customFields.length > 0) && (
             <div style={styles.footer}>
               {visibility.footerText1 && <p>{templateData.footerText1}</p>}
               {visibility.footerText2 && <p>{templateData.footerText2}</p>}
+              {customFields.map((field) =>
+                visibility[field.name] ? (
+                  <p key={field.name}>
+                    <strong>{field.name}:</strong>{" "}
+                    <span>{templateData[field.name]}</span>
+                  </p>
+                ) : null
+              )}
             </div>
           )}
         </div>
@@ -411,7 +305,7 @@ const EmailTemplateCreator: React.FC = () => {
   );
 };
 
-// Inline styles typed as React.CSSProperties
+// Inline styles
 const styles: { [key: string]: React.CSSProperties } = {
   container: {
     display: "flex",
@@ -434,7 +328,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   previewPanel: {
     flex: 1,
     minWidth: "300px",
-    backgroundColor: "rgba(233, 217, 217, 0.03)",
+    backgroundColor: "#fff",
     padding: "20px",
     borderRadius: "5px",
     boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
@@ -451,7 +345,17 @@ const styles: { [key: string]: React.CSSProperties } = {
   panelSubtitle: {
     fontSize: "14px",
     color: "#777",
-    marginBottom: "20px",
+    marginBottom: "10px",
+  },
+  addFieldButton: {
+    padding: "5px 10px",
+    fontSize: "16px",
+    backgroundColor: "#3498db",
+    color: "#fff",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginBottom: "15px",
   },
   inputGroup: {
     marginBottom: "20px",
@@ -464,7 +368,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     marginBottom: "6px",
   },
   input: {
-    width: "85%", // Adjusted to make room for the smaller icon button
+    width: "85%",
     padding: "10px",
     fontSize: "16px",
     borderRadius: "5px",
@@ -473,7 +377,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     transition: "border-color 0.2s",
   },
   textarea: {
-    width: "85%", // Adjusted to make room for the smaller icon button
+    width: "85%",
     padding: "10px",
     fontSize: "16px",
     borderRadius: "5px",
