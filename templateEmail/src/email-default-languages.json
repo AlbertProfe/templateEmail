@@ -1,0 +1,46 @@
+{
+  "languages": {
+    "english": {
+      "logoUrl": "Logo URL",
+      "header": "Header",
+      "contactName": "Name",
+      "contactEmail": "Email",
+      "contactPhone": "Phone",
+      "qrInstruction": "QR Instruction",
+      "eventName": "Event",
+      "eventDate": "Date",
+      "eventLocation": "Location",
+      "eventDescription": "Description",
+      "footerText1": "Footer Text 1",
+      "footerText2": "Footer Text 2"
+    },
+    "spanish": {
+      "logoUrl": "URL del Logo",
+      "header": "Encabezado",
+      "contactName": "Nombre",
+      "contactEmail": "Correo Electrónico",
+      "contactPhone": "Teléfono",
+      "qrInstruction": "Instrucción QR",
+      "eventName": "Evento",
+      "eventDate": "Fecha",
+      "eventLocation": "Ubicación",
+      "eventDescription": "Descripción",
+      "footerText1": "Texto de Pie 1",
+      "footerText2": "Texto de Pie 2"
+    },
+    "catalan": {
+      "logoUrl": "URL del Logotip",
+      "header": "Capçalera",
+      "contactName": "Nom",
+      "contactEmail": "Correu Electrònic",
+      "contactPhone": "Telèfon",
+      "qrInstruction": "Instrucció QR",
+      "eventName": "Esdeveniment",
+      "eventDate": "Data",
+      "eventLocation": "Ubicació",
+      "eventDescription": "Descripció",
+      "footerText1": "Text de Peu 1",
+      "footerText2": "Text de Peu 2"
+    }
+  }
+}
